@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      recordings: {
+        Row: {
+          aci: number | null
+          ai_json: Json | null
+          ai_summary: string | null
+          bandwidth_hz: number | null
+          confidence: number | null
+          created_at: string
+          dominant_hz: number | null
+          duration_sec: number
+          id: string
+          label: string
+          latitude: number | null
+          longitude: number | null
+          peak_db: number | null
+          reverb_rt60: number | null
+          species: string | null
+          sri: number | null
+          user_id: string
+        }
+        Insert: {
+          aci?: number | null
+          ai_json?: Json | null
+          ai_summary?: string | null
+          bandwidth_hz?: number | null
+          confidence?: number | null
+          created_at?: string
+          dominant_hz?: number | null
+          duration_sec?: number
+          id?: string
+          label?: string
+          latitude?: number | null
+          longitude?: number | null
+          peak_db?: number | null
+          reverb_rt60?: number | null
+          species?: string | null
+          sri?: number | null
+          user_id: string
+        }
+        Update: {
+          aci?: number | null
+          ai_json?: Json | null
+          ai_summary?: string | null
+          bandwidth_hz?: number | null
+          confidence?: number | null
+          created_at?: string
+          dominant_hz?: number | null
+          duration_sec?: number
+          id?: string
+          label?: string
+          latitude?: number | null
+          longitude?: number | null
+          peak_db?: number | null
+          reverb_rt60?: number | null
+          species?: string | null
+          sri?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
