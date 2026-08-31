@@ -49,7 +49,7 @@ function AuthPage() {
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Welcome back to the field lab.");
     done();
   }
@@ -66,7 +66,7 @@ function AuthPage() {
       },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Account created. If confirmation is required, check your inbox.");
     done();
   }
@@ -78,7 +78,7 @@ function AuthPage() {
     });
     if (result.error) {
       setBusy(false);
-      return toast.error("Google sign-in failed. Please try again.");
+      { toast.error("Google sign-in failed. Please try again."); return; }
     }
     if (result.redirected) return;
     setBusy(false);
@@ -93,7 +93,7 @@ function AuthPage() {
       options: { shouldCreateUser: false },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`A 6-digit reset code was sent to ${email}.`);
     setMode("forgot-otp");
   }
@@ -103,18 +103,18 @@ function AuthPage() {
     setBusy(true);
     const { error } = await supabase.auth.verifyOtp({ email, token: otp, type: "email" });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Code verified. Choose a new password.");
     setMode("forgot-password");
   }
 
   async function setNew(e: React.FormEvent) {
     e.preventDefault();
-    if (newPassword.length < 6) return toast.error("Password must be at least 6 characters.");
+    if (newPassword.length < 6) { toast.error("Password must be at least 6 characters."); return; }
     setBusy(true);
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Password updated — you're signed in.");
     done();
   }

@@ -71,10 +71,15 @@ function Home() {
   const loadRows = useCallback(async () => {
     const { data, error } = await supabase
       .from("recordings")
-      .select("id,label,species,confidence,aci,sri,rt60,created_at")
+      .select("id,label,species,confidence,aci,sri,reverb_rt60,created_at")
       .order("created_at", { ascending: false })
       .limit(12);
-    if (!error && data) setRows(data as SavedRow[]);
+    if (!error && data) setRows(
+        (data as unknown as (Omit<SavedRow, "rt60"> & { reverb_rt60: number | null })[]).map((d) => ({
+          ...d,
+          rt60: d.reverb_rt60,
+        })),
+      );
   }, []);
 
   useEffect(() => {
@@ -196,7 +201,7 @@ function Home() {
       ai_summary: v?.soundscape ?? null,
       ai_json: v ? JSON.parse(JSON.stringify(v)) : null,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Capture archived to your field log.");
     void loadRows();
   }
